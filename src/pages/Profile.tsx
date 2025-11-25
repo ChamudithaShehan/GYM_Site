@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { 
   Dumbbell, 
   User, 
@@ -15,8 +15,10 @@ import {
   CreditCard,
   Edit2,
   Save,
-  X
+  X,
+  RefreshCw
 } from "lucide-react";
+import { useAuth } from "@/contexts/AuthContext";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -33,8 +35,33 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 const Profile = () => {
+  const { user, isAuthenticated, updateUser } = useAuth();
+  const navigate = useNavigate();
   const [isEditing, setIsEditing] = useState(false);
   const [activeTab, setActiveTab] = useState("personal");
+
+  useEffect(() => {
+    if (!isAuthenticated) {
+      navigate("/auth");
+    }
+  }, [isAuthenticated, navigate]);
+
+  if (!user) {
+    return null;
+  }
+
+  const isExpired = user.membershipExpiry 
+    ? new Date(user.membershipExpiry) < new Date()
+    : true;
+
+  const formatDate = (dateString?: string) => {
+    if (!dateString) return "N/A";
+    return new Date(dateString).toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    });
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-black py-16 sm:py-20 px-3 sm:px-4">
@@ -73,34 +100,47 @@ const Profile = () => {
               </Avatar>
               <div className="flex-1 text-center md:text-left w-full">
                 <div className="flex flex-col sm:flex-row items-center sm:items-center justify-between mb-2 gap-2 sm:gap-0">
-                  <h1 className="text-2xl sm:text-3xl font-bold text-white">John Doe</h1>
-                  <Button
-                    onClick={() => setIsEditing(!isEditing)}
-                    variant="outline"
-                    className="border-gray-700 text-gray-300 hover:bg-orange-500 hover:text-white hover:border-orange-500 text-sm sm:text-base w-full sm:w-auto"
-                  >
-                    {isEditing ? (
-                      <>
-                        <X className="h-4 w-4 mr-2" />
-                        Cancel
-                      </>
-                    ) : (
-                      <>
-                        <Edit2 className="h-4 w-4 mr-2" />
-                        Edit Profile
-                      </>
+                  <h1 className="text-2xl sm:text-3xl font-bold text-white">{user.name}</h1>
+                  <div className="flex gap-2 w-full sm:w-auto">
+                    {isExpired && (
+                      <Button
+                        onClick={() => navigate("/#membership")}
+                        className="bg-orange-500 hover:bg-orange-600 text-white text-sm sm:text-base w-full sm:w-auto"
+                      >
+                        <RefreshCw className="h-4 w-4 mr-2" />
+                        Renew/Upgrade
+                      </Button>
                     )}
-                  </Button>
+                    <Button
+                      onClick={() => setIsEditing(!isEditing)}
+                      variant="outline"
+                      className="border-gray-700 text-gray-300 hover:bg-orange-500 hover:text-white hover:border-orange-500 text-sm sm:text-base w-full sm:w-auto"
+                    >
+                      {isEditing ? (
+                        <>
+                          <X className="h-4 w-4 mr-2" />
+                          Cancel
+                        </>
+                      ) : (
+                        <>
+                          <Edit2 className="h-4 w-4 mr-2" />
+                          Edit Profile
+                        </>
+                      )}
+                    </Button>
+                  </div>
                 </div>
-                <p className="text-gray-400 mb-4">Premium Member since January 2024</p>
+                <p className="text-gray-400 mb-4">
+                  {user.membershipPlan || "No"} Member {user.membershipExpiry ? `since ${formatDate(user.membershipExpiry)}` : ""}
+                </p>
                 <div className="flex flex-wrap gap-4 justify-center md:justify-start">
                   <div className="flex items-center text-gray-300">
                     <Mail className="h-4 w-4 mr-2 text-orange-500" />
-                    <span>john.doe@example.com</span>
+                    <span>{user.email}</span>
                   </div>
                   <div className="flex items-center text-gray-300">
                     <Phone className="h-4 w-4 mr-2 text-orange-500" />
-                    <span>+1 (555) 123-4567</span>
+                    <span>{user.phone}</span>
                   </div>
                 </div>
               </div>
@@ -158,9 +198,10 @@ const Profile = () => {
                       <User className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
                       <Input
                         id="fullName"
-                        defaultValue="John Doe"
+                        defaultValue={user.name}
                         disabled={!isEditing}
                         className="pl-10 bg-gray-900/50 border-gray-700 text-white disabled:opacity-70"
+                        onChange={(e) => isEditing && updateUser({ name: e.target.value })}
                       />
                     </div>
                   </div>
@@ -174,9 +215,10 @@ const Profile = () => {
                       <Input
                         id="email"
                         type="email"
-                        defaultValue="john.doe@example.com"
+                        defaultValue={user.email}
                         disabled={!isEditing}
                         className="pl-10 bg-gray-900/50 border-gray-700 text-white disabled:opacity-70"
+                        onChange={(e) => isEditing && updateUser({ email: e.target.value })}
                       />
                     </div>
                   </div>
@@ -190,9 +232,10 @@ const Profile = () => {
                       <Input
                         id="phone"
                         type="tel"
-                        defaultValue="+1 (555) 123-4567"
+                        defaultValue={user.phone}
                         disabled={!isEditing}
                         className="pl-10 bg-gray-900/50 border-gray-700 text-white disabled:opacity-70"
+                        onChange={(e) => isEditing && updateUser({ phone: e.target.value })}
                       />
                     </div>
                   </div>
@@ -258,10 +301,11 @@ const Profile = () => {
                   </Label>
                   <Textarea
                     id="address"
-                    defaultValue="123 Fitness Street, Health City, HC 12345"
+                    defaultValue={user.address}
                     disabled={!isEditing}
                     className="bg-gray-900/50 border-gray-700 text-white disabled:opacity-70"
                     rows={2}
+                    onChange={(e) => isEditing && updateUser({ address: e.target.value })}
                   />
                 </div>
 
@@ -610,19 +654,47 @@ const Profile = () => {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               <div className="space-y-2">
                 <Label className="text-gray-400">Membership Plan</Label>
-                <p className="text-white text-lg font-semibold">Premium</p>
+                <p className="text-white text-lg font-semibold">{user.membershipPlan || "No Plan"}</p>
               </div>
               <div className="space-y-2">
-                <Label className="text-gray-400">Join Date</Label>
-                <p className="text-white text-lg font-semibold">January 15, 2024</p>
+                <Label className="text-gray-400">Expiry Date</Label>
+                <p className={`text-lg font-semibold ${isExpired ? 'text-red-400' : 'text-white'}`}>
+                  {user.membershipExpiry ? formatDate(user.membershipExpiry) : "N/A"}
+                </p>
               </div>
               <div className="space-y-2">
                 <Label className="text-gray-400">Status</Label>
-                <span className="inline-block bg-green-500/20 text-green-400 px-3 py-1 rounded-full text-sm font-semibold">
-                  Active
-                </span>
+                {isExpired ? (
+                  <span className="inline-block bg-red-500/20 text-red-400 px-3 py-1 rounded-full text-sm font-semibold">
+                    Expired
+                  </span>
+                ) : (
+                  <span className="inline-block bg-green-500/20 text-green-400 px-3 py-1 rounded-full text-sm font-semibold">
+                    Active
+                  </span>
+                )}
               </div>
             </div>
+            {isExpired && (
+              <div className="mt-6 p-4 bg-orange-500/10 border border-orange-500/30 rounded-lg">
+                <div className="flex items-start">
+                  <AlertCircle className="h-5 w-5 text-orange-500 mr-2 mt-0.5" />
+                  <div className="flex-1">
+                    <p className="text-orange-400 font-semibold mb-1">Membership Expired</p>
+                    <p className="text-gray-400 text-sm mb-3">
+                      Your membership has expired. Renew or upgrade your plan to continue enjoying our services.
+                    </p>
+                    <Button
+                      onClick={() => navigate("/#membership")}
+                      className="bg-orange-500 hover:bg-orange-600 text-white"
+                    >
+                      <RefreshCw className="h-4 w-4 mr-2" />
+                      Renew or Upgrade Now
+                    </Button>
+                  </div>
+                </div>
+              </div>
+            )}
           </CardContent>
         </Card>
       </div>

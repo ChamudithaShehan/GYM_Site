@@ -1,15 +1,23 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Dumbbell, Mail, Lock, User, Phone, Eye, EyeOff } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useAuth } from "@/contexts/AuthContext";
 
 const Auth = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [name, setName] = useState("");
+  const [phone, setPhone] = useState("");
+  const { login } = useAuth();
+  const navigate = useNavigate();
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-black flex items-center justify-center p-4">
@@ -58,7 +66,16 @@ const Auth = () => {
 
               {/* Sign In Tab */}
               <TabsContent value="signin" className="space-y-4">
-                <form className="space-y-4" onSubmit={(e) => e.preventDefault()}>
+                <form 
+                  className="space-y-4" 
+                  onSubmit={async (e) => {
+                    e.preventDefault();
+                    const success = await login(email, password);
+                    if (success) {
+                      navigate("/profile");
+                    }
+                  }}
+                >
                   <div className="space-y-2">
                     <Label htmlFor="signin-email" className="text-gray-300">
                       Email
@@ -69,6 +86,8 @@ const Auth = () => {
                         id="signin-email"
                         type="email"
                         placeholder="Enter your email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
                         className="pl-10 bg-gray-900/50 border-gray-700 text-white placeholder:text-gray-500 focus:border-orange-500"
                         required
                       />
@@ -85,6 +104,8 @@ const Auth = () => {
                         id="signin-password"
                         type={showPassword ? "text" : "password"}
                         placeholder="Enter your password"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
                         className="pl-10 pr-10 bg-gray-900/50 border-gray-700 text-white placeholder:text-gray-500 focus:border-orange-500"
                         required
                       />
@@ -128,7 +149,16 @@ const Auth = () => {
 
               {/* Sign Up Tab */}
               <TabsContent value="signup" className="space-y-4">
-                <form className="space-y-4" onSubmit={(e) => e.preventDefault()}>
+                <form 
+                  className="space-y-4" 
+                  onSubmit={async (e) => {
+                    e.preventDefault();
+                    const success = await login(email, password, name, phone);
+                    if (success) {
+                      navigate("/profile");
+                    }
+                  }}
+                >
                   <div className="space-y-2">
                     <Label htmlFor="signup-name" className="text-gray-300">
                       Full Name
@@ -139,6 +169,8 @@ const Auth = () => {
                         id="signup-name"
                         type="text"
                         placeholder="Enter your full name"
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
                         className="pl-10 bg-gray-900/50 border-gray-700 text-white placeholder:text-gray-500 focus:border-orange-500"
                         required
                       />
@@ -155,6 +187,8 @@ const Auth = () => {
                         id="signup-email"
                         type="email"
                         placeholder="Enter your email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
                         className="pl-10 bg-gray-900/50 border-gray-700 text-white placeholder:text-gray-500 focus:border-orange-500"
                         required
                       />
@@ -171,6 +205,8 @@ const Auth = () => {
                         id="signup-phone"
                         type="tel"
                         placeholder="Enter your phone number"
+                        value={phone}
+                        onChange={(e) => setPhone(e.target.value)}
                         className="pl-10 bg-gray-900/50 border-gray-700 text-white placeholder:text-gray-500 focus:border-orange-500"
                         required
                       />
@@ -187,6 +223,8 @@ const Auth = () => {
                         id="signup-password"
                         type={showPassword ? "text" : "password"}
                         placeholder="Create a password"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
                         className="pl-10 pr-10 bg-gray-900/50 border-gray-700 text-white placeholder:text-gray-500 focus:border-orange-500"
                         required
                       />
@@ -210,6 +248,8 @@ const Auth = () => {
                         id="signup-confirm-password"
                         type={showConfirmPassword ? "text" : "password"}
                         placeholder="Confirm your password"
+                        value={confirmPassword}
+                        onChange={(e) => setConfirmPassword(e.target.value)}
                         className="pl-10 pr-10 bg-gray-900/50 border-gray-700 text-white placeholder:text-gray-500 focus:border-orange-500"
                         required
                       />

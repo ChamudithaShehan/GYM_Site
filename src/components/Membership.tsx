@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Check } from "lucide-react";
 import {
@@ -7,10 +8,35 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
+import { useAuth } from "@/contexts/AuthContext";
 
 const Membership = () => {
+  const navigate = useNavigate();
+  const { isAuthenticated } = useAuth();
+
+  const handleGetStarted = (planId: string) => {
+    if (!isAuthenticated) {
+      navigate("/auth");
+      return;
+    }
+    navigate(`/payment?plan=${planId}`);
+  };
+
   const plans = [
     {
+      id: "starter",
+      name: "Starter",
+      price: "$19",
+      period: "/month",
+      features: [
+        "Limited gym access",
+        "Basic equipment only",
+        "No classes included",
+        "Mobile app access"
+      ]
+    },
+    {
+      id: "basic",
       name: "Basic",
       price: "$29",
       period: "/month",
@@ -22,6 +48,7 @@ const Membership = () => {
       ]
     },
     {
+      id: "premium",
       name: "Premium",
       price: "$59",
       period: "/month",
@@ -35,29 +62,7 @@ const Membership = () => {
       ]
     },
     {
-      name: "Elite",
-      price: "$99",
-      period: "/month",
-      features: [
-        "Everything in Premium",
-        "Unlimited personal training",
-        "Custom workout plans",
-        "Recovery services",
-        "VIP locker room access"
-      ]
-    },
-    {
-      name: "Starter",
-      price: "$19",
-      period: "/month",
-      features: [
-        "Limited gym access",
-        "Basic equipment only",
-        "No classes included",
-        "Mobile app access"
-      ]
-    },
-    {
+      id: "pro",
       name: "Pro",
       price: "$79",
       period: "/month",
@@ -70,6 +75,20 @@ const Membership = () => {
       ]
     },
     {
+      id: "elite",
+      name: "Elite",
+      price: "$99",
+      period: "/month",
+      features: [
+        "Everything in Premium",
+        "Unlimited personal training",
+        "Custom workout plans",
+        "Recovery services",
+        "VIP locker room access"
+      ]
+    },
+    {
+      id: "ultimate",
       name: "Ultimate",
       price: "$149",
       period: "/month",
@@ -105,7 +124,7 @@ const Membership = () => {
             <CarouselContent className="-ml-2 md:-ml-4">
               {plans.map((plan, index) => (
                 <CarouselItem key={index} className="pl-2 md:pl-4 basis-full md:basis-1/2 lg:basis-1/3">
-                  <div className={`relative rounded-lg p-5 sm:p-6 md:p-8 h-full ${plan.popular ? 'bg-gradient-to-b from-orange-500 to-orange-600 md:transform md:scale-105' : 'bg-gray-800'} hover:scale-105 transition-all duration-300`}>
+                  <div className={`relative rounded-lg p-5 sm:p-6 md:p-8 h-full flex flex-col ${plan.popular ? 'bg-gradient-to-b from-orange-500 to-orange-600 md:transform md:scale-105' : 'bg-gray-800'} hover:scale-105 transition-all duration-300`}>
                     {plan.popular && (
                       <div className="absolute -top-3 sm:-top-4 left-1/2 transform -translate-x-1/2 z-10">
                         <span className="bg-yellow-400 text-black px-3 sm:px-4 py-1 rounded-full text-xs sm:text-sm font-bold">
@@ -128,7 +147,7 @@ const Membership = () => {
                       </div>
                     </div>
                     
-                    <ul className="space-y-3 sm:space-y-4 mb-6 sm:mb-8">
+                    <ul className="space-y-3 sm:space-y-4 mb-6 sm:mb-8 flex-grow">
                       {plan.features.map((feature, featureIndex) => (
                         <li key={featureIndex} className="flex items-start sm:items-center">
                           <Check className={`h-4 w-4 sm:h-5 sm:w-5 ${plan.popular ? 'text-white' : 'text-orange-500'} mr-2 sm:mr-3 flex-shrink-0 mt-0.5 sm:mt-0`} />
@@ -140,7 +159,8 @@ const Membership = () => {
                     </ul>
                     
                     <Button 
-                      className={`w-full py-2.5 sm:py-3 text-base sm:text-lg font-semibold transition-all duration-200 ${
+                      onClick={() => handleGetStarted(plan.id)}
+                      className={`w-full py-2.5 sm:py-3 text-base sm:text-lg font-semibold transition-all duration-200 mt-auto ${
                         plan.popular 
                           ? 'bg-white text-orange-500 hover:bg-gray-100' 
                           : 'bg-orange-500 hover:bg-orange-600 text-white'

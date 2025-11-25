@@ -1,9 +1,11 @@
 import { Link } from "react-router-dom";
-import { Dumbbell, Menu, X, User } from "lucide-react";
+import { Dumbbell, Menu, X, User, LogOut } from "lucide-react";
 import { useState } from "react";
+import { useAuth } from "@/contexts/AuthContext";
 
 const Navigation = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const { isAuthenticated, logout } = useAuth();
 
   return (
     <nav className="fixed top-0 w-full bg-black/90 backdrop-blur-sm z-50 border-b border-gray-800">
@@ -21,13 +23,25 @@ const Navigation = () => {
               <a href="#membership" className="text-gray-300 hover:text-orange-500 transition-colors duration-200">Membership</a>
               <a href="#trainers" className="text-gray-300 hover:text-orange-500 transition-colors duration-200">Trainers</a>
               <a href="#contact" className="text-gray-300 hover:text-orange-500 transition-colors duration-200">Contact</a>
-              <Link to="/profile" className="text-gray-300 hover:text-orange-500 transition-colors duration-200 flex items-center text-sm sm:text-base">
-                <User className="h-4 w-4 mr-1" />
-                <span className="hidden sm:inline">Profile</span>
-              </Link>
-              <Link to="/auth" className="bg-orange-500 hover:bg-orange-600 text-white px-3 sm:px-4 py-1.5 sm:py-2 rounded-md font-semibold transition-all duration-200 hover:scale-105 text-sm sm:text-base">
-                Sign In
-              </Link>
+              {isAuthenticated ? (
+                <>
+                  <Link to="/profile" className="text-gray-300 hover:text-orange-500 transition-colors duration-200 flex items-center text-sm sm:text-base">
+                    <User className="h-4 w-4 mr-1" />
+                    <span className="hidden sm:inline">Profile</span>
+                  </Link>
+                  <button
+                    onClick={logout}
+                    className="text-gray-300 hover:text-orange-500 transition-colors duration-200 flex items-center text-sm sm:text-base"
+                  >
+                    <LogOut className="h-4 w-4 mr-1" />
+                    <span className="hidden sm:inline">Logout</span>
+                  </button>
+                </>
+              ) : (
+                <Link to="/auth" className="bg-orange-500 hover:bg-orange-600 text-white px-3 sm:px-4 py-1.5 sm:py-2 rounded-md font-semibold transition-all duration-200 hover:scale-105 text-sm sm:text-base">
+                  Sign In
+                </Link>
+              )}
             </div>
           </div>
           
@@ -49,13 +63,25 @@ const Navigation = () => {
               <a href="#membership" className="block px-3 py-2 text-gray-300 hover:text-orange-500">Membership</a>
               <a href="#trainers" className="block px-3 py-2 text-gray-300 hover:text-orange-500">Trainers</a>
               <a href="#contact" className="block px-3 py-2 text-gray-300 hover:text-orange-500">Contact</a>
-              <Link to="/profile" className="block px-3 py-2 text-gray-300 hover:text-orange-500 flex items-center">
-                <User className="h-4 w-4 mr-2" />
-                Profile
-              </Link>
-              <Link to="/auth" className="block px-3 py-2 bg-orange-500 hover:bg-orange-600 text-white rounded-md font-semibold text-center mt-2">
-                Sign In
-              </Link>
+              {isAuthenticated ? (
+                <>
+                  <Link to="/profile" className="block px-3 py-2 text-gray-300 hover:text-orange-500 flex items-center">
+                    <User className="h-4 w-4 mr-2" />
+                    Profile
+                  </Link>
+                  <button
+                    onClick={logout}
+                    className="block px-3 py-2 text-gray-300 hover:text-orange-500 flex items-center w-full"
+                  >
+                    <LogOut className="h-4 w-4 mr-2" />
+                    Logout
+                  </button>
+                </>
+              ) : (
+                <Link to="/auth" className="block px-3 py-2 bg-orange-500 hover:bg-orange-600 text-white rounded-md font-semibold text-center mt-2">
+                  Sign In
+                </Link>
+              )}
             </div>
           </div>
         )}
