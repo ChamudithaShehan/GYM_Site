@@ -19,29 +19,29 @@ const Auth = () => {
       {/* Logo/Home Link */}
       <Link 
         to="/" 
-        className="absolute top-6 left-6 flex items-center space-x-2 text-white hover:text-orange-500 transition-colors duration-200 z-10"
+        className="absolute top-4 left-4 sm:top-6 sm:left-6 flex items-center space-x-2 text-white hover:text-orange-500 transition-colors duration-200 z-10"
       >
-        <Dumbbell className="h-8 w-8 text-orange-500" />
-        <span className="text-xl font-bold">POWERFIT</span>
+        <Dumbbell className="h-6 w-6 sm:h-8 sm:w-8 text-orange-500" />
+        <span className="text-lg sm:text-xl font-bold">POWERFIT</span>
       </Link>
 
-      <div className="relative z-10 w-full max-w-md">
+      <div className="relative z-10 w-full max-w-md mx-auto px-2 sm:px-4">
         <Card className="bg-gray-800/95 backdrop-blur-sm border-gray-700 shadow-2xl">
-          <CardHeader className="text-center space-y-2 pb-6">
-            <div className="flex justify-center mb-4">
-              <div className="bg-orange-500/20 p-4 rounded-full">
-                <Dumbbell className="h-12 w-12 text-orange-500" />
+          <CardHeader className="text-center space-y-2 pb-4 sm:pb-6 px-4 sm:px-6">
+            <div className="flex justify-center mb-3 sm:mb-4">
+              <div className="bg-orange-500/20 p-3 sm:p-4 rounded-full">
+                <Dumbbell className="h-8 w-8 sm:h-12 sm:w-12 text-orange-500" />
               </div>
             </div>
-            <CardTitle className="text-3xl font-bold text-white">Welcome to POWERFIT</CardTitle>
-            <CardDescription className="text-gray-400 text-base">
+            <CardTitle className="text-2xl sm:text-3xl font-bold text-white">Welcome to POWERFIT</CardTitle>
+            <CardDescription className="text-gray-400 text-sm sm:text-base">
               Your fitness journey starts here
             </CardDescription>
           </CardHeader>
 
-          <CardContent>
+          <CardContent className="px-4 sm:px-6">
             <Tabs defaultValue="signin" className="w-full">
-              <TabsList className="grid w-full grid-cols-2 bg-gray-900/50 mb-6">
+              <TabsList className="grid w-full grid-cols-2 bg-gray-900/50 mb-4 sm:mb-6">
                 <TabsTrigger 
                   value="signin" 
                   className="data-[state=active]:bg-orange-500 data-[state=active]:text-white text-gray-400"

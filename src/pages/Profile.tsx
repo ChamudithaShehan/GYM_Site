@@ -37,23 +37,24 @@ const Profile = () => {
   const [activeTab, setActiveTab] = useState("personal");
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-black py-20 px-4">
+    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-black py-16 sm:py-20 px-3 sm:px-4">
       {/* Background Image */}
       <div className="fixed inset-0 bg-[url('https://images.unsplash.com/photo-1534438327276-14e5300c3a48?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80')] bg-cover bg-center opacity-5"></div>
       
       {/* Navigation */}
       <nav className="fixed top-0 w-full bg-black/90 backdrop-blur-sm z-50 border-b border-gray-800">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
+          <div className="flex justify-between items-center h-14 sm:h-16">
             <Link to="/" className="flex items-center space-x-2">
-              <Dumbbell className="h-8 w-8 text-orange-500" />
-              <span className="text-xl font-bold text-white">POWERFIT</span>
+              <Dumbbell className="h-6 w-6 sm:h-8 sm:w-8 text-orange-500" />
+              <span className="text-lg sm:text-xl font-bold text-white">POWERFIT</span>
             </Link>
             <Link 
               to="/" 
-              className="text-gray-300 hover:text-orange-500 transition-colors duration-200"
+              className="text-gray-300 hover:text-orange-500 transition-colors duration-200 text-sm sm:text-base"
             >
-              Back to Home
+              <span className="hidden sm:inline">Back to Home</span>
+              <span className="sm:hidden">Home</span>
             </Link>
           </div>
         </div>
@@ -70,13 +71,13 @@ const Profile = () => {
                   JD
                 </AvatarFallback>
               </Avatar>
-              <div className="flex-1 text-center md:text-left">
-                <div className="flex items-center justify-between mb-2">
-                  <h1 className="text-3xl font-bold text-white">John Doe</h1>
+              <div className="flex-1 text-center md:text-left w-full">
+                <div className="flex flex-col sm:flex-row items-center sm:items-center justify-between mb-2 gap-2 sm:gap-0">
+                  <h1 className="text-2xl sm:text-3xl font-bold text-white">John Doe</h1>
                   <Button
                     onClick={() => setIsEditing(!isEditing)}
                     variant="outline"
-                    className="border-gray-700 text-gray-300 hover:bg-orange-500 hover:text-white hover:border-orange-500"
+                    className="border-gray-700 text-gray-300 hover:bg-orange-500 hover:text-white hover:border-orange-500 text-sm sm:text-base w-full sm:w-auto"
                   >
                     {isEditing ? (
                       <>
@@ -117,28 +118,30 @@ const Profile = () => {
           </CardHeader>
           <CardContent>
             <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-              <TabsList className="grid w-full grid-cols-2 md:grid-cols-4 bg-gray-900/50 mb-6">
+              <TabsList className="grid w-full grid-cols-2 md:grid-cols-4 bg-gray-900/50 mb-4 sm:mb-6 h-auto">
                 <TabsTrigger 
                   value="personal" 
-                  className="data-[state=active]:bg-orange-500 data-[state=active]:text-white text-gray-400"
+                  className="data-[state=active]:bg-orange-500 data-[state=active]:text-white text-gray-400 text-xs sm:text-sm py-2 sm:py-1.5"
                 >
                   Personal
                 </TabsTrigger>
                 <TabsTrigger 
                   value="physical" 
-                  className="data-[state=active]:bg-orange-500 data-[state=active]:text-white text-gray-400"
+                  className="data-[state=active]:bg-orange-500 data-[state=active]:text-white text-gray-400 text-xs sm:text-sm py-2 sm:py-1.5"
                 >
-                  Physical Stats
+                  <span className="hidden sm:inline">Physical Stats</span>
+                  <span className="sm:hidden">Physical</span>
                 </TabsTrigger>
                 <TabsTrigger 
                   value="fitness" 
-                  className="data-[state=active]:bg-orange-500 data-[state=active]:text-white text-gray-400"
+                  className="data-[state=active]:bg-orange-500 data-[state=active]:text-white text-gray-400 text-xs sm:text-sm py-2 sm:py-1.5"
                 >
-                  Fitness Goals
+                  <span className="hidden sm:inline">Fitness Goals</span>
+                  <span className="sm:hidden">Fitness</span>
                 </TabsTrigger>
                 <TabsTrigger 
                   value="medical" 
-                  className="data-[state=active]:bg-orange-500 data-[state=active]:text-white text-gray-400"
+                  className="data-[state=active]:bg-orange-500 data-[state=active]:text-white text-gray-400 text-xs sm:text-sm py-2 sm:py-1.5"
                 >
                   Medical
                 </TabsTrigger>

@@ -21,32 +21,32 @@ const Services = () => {
   ];
 
   return (
-    <section id="services" className="py-20 bg-gray-800">
+    <section id="services" className="py-12 sm:py-16 md:py-20 bg-gray-800">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-16">
-          <h2 className="text-4xl font-bold text-white mb-4">OUR SERVICES</h2>
-          <p className="text-xl text-gray-400 max-w-2xl mx-auto">
+        <div className="text-center mb-8 sm:mb-12 md:mb-16">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-3 sm:mb-4">OUR SERVICES</h2>
+          <p className="text-base sm:text-lg md:text-xl text-gray-400 max-w-2xl mx-auto px-4">
             Everything you need to achieve your fitness goals under one roof
           </p>
         </div>
         
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
           {services.map((service, index) => (
             <div key={index} className="group relative overflow-hidden rounded-lg bg-gray-900 hover:scale-105 transition-all duration-300">
               <div className="aspect-w-16 aspect-h-12">
                 <img 
                   src={service.image} 
                   alt={service.title}
-                  className="w-full h-64 object-cover group-hover:scale-110 transition-transform duration-300"
+                  className="w-full h-48 sm:h-56 md:h-64 object-cover group-hover:scale-110 transition-transform duration-300"
                 />
               </div>
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
-              <div className="absolute bottom-0 left-0 right-0 p-6">
+              <div className="absolute bottom-0 left-0 right-0 p-4 sm:p-6">
                 <div className="flex items-center mb-2">
-                  <Dumbbell className="h-6 w-6 text-orange-500 mr-2" />
-                  <h3 className="text-xl font-bold text-white">{service.title}</h3>
+                  <Dumbbell className="h-5 w-5 sm:h-6 sm:w-6 text-orange-500 mr-2" />
+                  <h3 className="text-lg sm:text-xl font-bold text-white">{service.title}</h3>
                 </div>
-                <p className="text-gray-300">{service.description}</p>
+                <p className="text-sm sm:text-base text-gray-300">{service.description}</p>
               </div>
             </div>
           ))}

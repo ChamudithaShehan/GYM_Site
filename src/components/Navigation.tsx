@@ -10,8 +10,8 @@ const Navigation = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           <div className="flex items-center space-x-2">
-            <Dumbbell className="h-8 w-8 text-orange-500" />
-            <span className="text-xl font-bold text-white">POWERFIT</span>
+            <Dumbbell className="h-6 w-6 sm:h-8 sm:w-8 text-orange-500" />
+            <span className="text-lg sm:text-xl font-bold text-white">POWERFIT</span>
           </div>
           
           <div className="hidden md:block">
@@ -21,11 +21,11 @@ const Navigation = () => {
               <a href="#membership" className="text-gray-300 hover:text-orange-500 transition-colors duration-200">Membership</a>
               <a href="#trainers" className="text-gray-300 hover:text-orange-500 transition-colors duration-200">Trainers</a>
               <a href="#contact" className="text-gray-300 hover:text-orange-500 transition-colors duration-200">Contact</a>
-              <Link to="/profile" className="text-gray-300 hover:text-orange-500 transition-colors duration-200 flex items-center">
+              <Link to="/profile" className="text-gray-300 hover:text-orange-500 transition-colors duration-200 flex items-center text-sm sm:text-base">
                 <User className="h-4 w-4 mr-1" />
-                Profile
+                <span className="hidden sm:inline">Profile</span>
               </Link>
-              <Link to="/auth" className="bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-md font-semibold transition-all duration-200 hover:scale-105">
+              <Link to="/auth" className="bg-orange-500 hover:bg-orange-600 text-white px-3 sm:px-4 py-1.5 sm:py-2 rounded-md font-semibold transition-all duration-200 hover:scale-105 text-sm sm:text-base">
                 Sign In
               </Link>
             </div>
