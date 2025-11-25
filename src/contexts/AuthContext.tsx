@@ -1,4 +1,5 @@
 import { createContext, useContext, useState, useEffect, ReactNode } from "react";
+import { demoUsers, getDemoUserByEmail, type DemoUser } from "@/data/demoData";
 
 interface User {
   id: string;
@@ -8,8 +9,29 @@ interface User {
   address: string;
   city: string;
   zipCode: string;
+  dateOfBirth?: string;
+  gender?: string;
+  bloodType?: string;
   membershipPlan?: string;
   membershipExpiry?: string;
+  height?: string;
+  weight?: string;
+  chest?: string;
+  waist?: string;
+  hips?: string;
+  arms?: string;
+  thighs?: string;
+  bodyFat?: string;
+  goalWeight?: string;
+  targetDate?: string;
+  primaryGoal?: string;
+  medicalConditions?: string;
+  allergies?: string;
+  medications?: string;
+  injuries?: string;
+  emergencyName?: string;
+  emergencyRelation?: string;
+  emergencyPhone?: string;
 }
 
 interface AuthContextType {
@@ -34,24 +56,67 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   }, []);
 
   const login = async (email: string, password: string, name?: string, phone?: string): Promise<boolean> => {
-    // Simulate login - in real app, this would call an API
-    // For demo purposes, accept any email/password
+    // Check for demo user first
+    const demoUser = getDemoUserByEmail(email);
+    if (demoUser && demoUser.password === password) {
+      // Convert demo user to User format
+      const userData: User = {
+        id: demoUser.id,
+        name: demoUser.name,
+        email: demoUser.email,
+        phone: demoUser.phone,
+        address: demoUser.address,
+        city: demoUser.city,
+        zipCode: demoUser.zipCode,
+        dateOfBirth: demoUser.dateOfBirth,
+        gender: demoUser.gender,
+        bloodType: demoUser.bloodType,
+        membershipPlan: demoUser.membershipPlan,
+        membershipExpiry: demoUser.membershipExpiry,
+        height: demoUser.height,
+        weight: demoUser.weight,
+        chest: demoUser.chest,
+        waist: demoUser.waist,
+        hips: demoUser.hips,
+        arms: demoUser.arms,
+        thighs: demoUser.thighs,
+        bodyFat: demoUser.bodyFat,
+        goalWeight: demoUser.goalWeight,
+        targetDate: demoUser.targetDate,
+        primaryGoal: demoUser.primaryGoal,
+        medicalConditions: demoUser.medicalConditions,
+        allergies: demoUser.allergies,
+        medications: demoUser.medications,
+        injuries: demoUser.injuries,
+        emergencyName: demoUser.emergencyName,
+        emergencyRelation: demoUser.emergencyRelation,
+        emergencyPhone: demoUser.emergencyPhone,
+      };
+      setUser(userData);
+      localStorage.setItem("user", JSON.stringify(userData));
+      return true;
+    }
+
+    // Check if user exists in localStorage (for custom signups)
     const savedUser = localStorage.getItem("user");
     if (savedUser) {
       const userData = JSON.parse(savedUser);
-      setUser(userData);
-      return true;
+      // For demo, accept any password for existing users
+      if (userData.email.toLowerCase() === email.toLowerCase()) {
+        setUser(userData);
+        return true;
+      }
     }
     
-    // New user signup
+    // New user signup - create new user
     const userData: User = {
-      id: "1",
-      name: name || "John Doe",
+      id: Date.now().toString(),
+      name: name || "New User",
       email: email,
-      phone: phone || "+1 (555) 123-4567",
-      address: "123 Fitness Street, Health City",
-      city: "Health City",
-      zipCode: "12345",
+      phone: phone || "+1 (555) 000-0000",
+      address: "",
+      city: "",
+      zipCode: "",
     };
     
     setUser(userData);

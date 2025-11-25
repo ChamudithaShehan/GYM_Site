@@ -1,12 +1,13 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { Dumbbell, Mail, Lock, User, Phone, Eye, EyeOff } from "lucide-react";
+import { Dumbbell, Mail, Lock, User, Phone, Eye, EyeOff, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useAuth } from "@/contexts/AuthContext";
+import { demoUsers } from "@/data/demoData";
 
 const Auth = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -48,6 +49,32 @@ const Auth = () => {
           </CardHeader>
 
           <CardContent className="px-4 sm:px-6">
+            {/* Demo Accounts Helper */}
+            <div className="mb-4 sm:mb-6 p-3 bg-blue-500/10 border border-blue-500/30 rounded-lg">
+              <div className="flex items-start">
+                <Sparkles className="h-4 w-4 text-blue-400 mr-2 mt-0.5 flex-shrink-0" />
+                <div className="flex-1">
+                  <p className="text-blue-400 text-xs font-semibold mb-1">Demo Accounts</p>
+                  <p className="text-gray-400 text-xs mb-2">Try these demo accounts (password: demo123):</p>
+                  <div className="space-y-1 text-xs">
+                    {demoUsers.slice(0, 3).map((demoUser) => (
+                      <button
+                        key={demoUser.id}
+                        type="button"
+                        onClick={() => {
+                          setEmail(demoUser.email);
+                          setPassword(demoUser.password);
+                        }}
+                        className="block text-blue-400 hover:text-blue-300 underline text-left"
+                      >
+                        {demoUser.email} - {demoUser.membershipPlan || "No Plan"}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+
             <Tabs defaultValue="signin" className="w-full">
               <TabsList className="grid w-full grid-cols-2 bg-gray-900/50 mb-4 sm:mb-6">
                 <TabsTrigger 

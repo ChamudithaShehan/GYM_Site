@@ -102,13 +102,22 @@ const Profile = () => {
                 <div className="flex flex-col sm:flex-row items-center sm:items-center justify-between mb-2 gap-2 sm:gap-0">
                   <h1 className="text-2xl sm:text-3xl font-bold text-white">{user.name}</h1>
                   <div className="flex gap-2 w-full sm:w-auto">
-                    {isExpired && (
+                    {isExpired && user.membershipPlan && (
+                      <Button
+                        onClick={() => navigate("/renewal")}
+                        className="bg-orange-500 hover:bg-orange-600 text-white text-sm sm:text-base w-full sm:w-auto"
+                      >
+                        <RefreshCw className="h-4 w-4 mr-2" />
+                        Renew/Upgrade
+                      </Button>
+                    )}
+                    {isExpired && !user.membershipPlan && (
                       <Button
                         onClick={() => navigate("/#membership")}
                         className="bg-orange-500 hover:bg-orange-600 text-white text-sm sm:text-base w-full sm:w-auto"
                       >
                         <RefreshCw className="h-4 w-4 mr-2" />
-                        Renew/Upgrade
+                        Get Membership
                       </Button>
                     )}
                     <Button
@@ -249,9 +258,10 @@ const Profile = () => {
                       <Input
                         id="dateOfBirth"
                         type="date"
-                        defaultValue="1990-05-15"
+                        defaultValue={user.dateOfBirth || "1990-05-15"}
                         disabled={!isEditing}
                         className="pl-10 bg-gray-900/50 border-gray-700 text-white disabled:opacity-70"
+                        onChange={(e) => isEditing && updateUser({ dateOfBirth: e.target.value })}
                       />
                     </div>
                   </div>
@@ -260,7 +270,11 @@ const Profile = () => {
                     <Label htmlFor="gender" className="text-gray-300">
                       Gender
                     </Label>
-                    <Select disabled={!isEditing} defaultValue="male">
+                    <Select 
+                      disabled={!isEditing} 
+                      defaultValue={user.gender || "male"}
+                      onValueChange={(value) => isEditing && updateUser({ gender: value })}
+                    >
                       <SelectTrigger className="bg-gray-900/50 border-gray-700 text-white">
                         <SelectValue />
                       </SelectTrigger>
@@ -277,7 +291,11 @@ const Profile = () => {
                     <Label htmlFor="bloodType" className="text-gray-300">
                       Blood Type
                     </Label>
-                    <Select disabled={!isEditing} defaultValue="o-positive">
+                    <Select 
+                      disabled={!isEditing} 
+                      defaultValue={user.bloodType || "o-positive"}
+                      onValueChange={(value) => isEditing && updateUser({ bloodType: value })}
+                    >
                       <SelectTrigger className="bg-gray-900/50 border-gray-700 text-white">
                         <SelectValue />
                       </SelectTrigger>
@@ -301,7 +319,7 @@ const Profile = () => {
                   </Label>
                   <Textarea
                     id="address"
-                    defaultValue={user.address}
+                    defaultValue={user.address || ""}
                     disabled={!isEditing}
                     className="bg-gray-900/50 border-gray-700 text-white disabled:opacity-70"
                     rows={2}
@@ -329,9 +347,10 @@ const Profile = () => {
                       <Input
                         id="height"
                         placeholder="e.g., 5'10 or 178 cm"
-                        defaultValue="5'10"
+                        defaultValue={user.height || ""}
                         disabled={!isEditing}
                         className="pl-10 bg-gray-900/50 border-gray-700 text-white disabled:opacity-70"
+                        onChange={(e) => isEditing && updateUser({ height: e.target.value })}
                       />
                     </div>
                   </div>
@@ -345,9 +364,10 @@ const Profile = () => {
                       <Input
                         id="weight"
                         placeholder="e.g., 180 lbs or 82 kg"
-                        defaultValue="180 lbs"
+                        defaultValue={user.weight || ""}
                         disabled={!isEditing}
                         className="pl-10 bg-gray-900/50 border-gray-700 text-white disabled:opacity-70"
+                        onChange={(e) => isEditing && updateUser({ weight: e.target.value })}
                       />
                     </div>
                   </div>
@@ -359,9 +379,10 @@ const Profile = () => {
                     <Input
                       id="chest"
                       placeholder="Chest measurement"
-                      defaultValue="42 inches"
+                      defaultValue={user.chest || ""}
                       disabled={!isEditing}
                       className="bg-gray-900/50 border-gray-700 text-white disabled:opacity-70"
+                      onChange={(e) => isEditing && updateUser({ chest: e.target.value })}
                     />
                   </div>
 
@@ -372,9 +393,10 @@ const Profile = () => {
                     <Input
                       id="waist"
                       placeholder="Waist measurement"
-                      defaultValue="34 inches"
+                      defaultValue={user.waist || ""}
                       disabled={!isEditing}
                       className="bg-gray-900/50 border-gray-700 text-white disabled:opacity-70"
+                      onChange={(e) => isEditing && updateUser({ waist: e.target.value })}
                     />
                   </div>
 
@@ -385,9 +407,10 @@ const Profile = () => {
                     <Input
                       id="hips"
                       placeholder="Hips measurement"
-                      defaultValue="38 inches"
+                      defaultValue={user.hips || ""}
                       disabled={!isEditing}
                       className="bg-gray-900/50 border-gray-700 text-white disabled:opacity-70"
+                      onChange={(e) => isEditing && updateUser({ hips: e.target.value })}
                     />
                   </div>
 
@@ -398,9 +421,10 @@ const Profile = () => {
                     <Input
                       id="arms"
                       placeholder="Arm measurement"
-                      defaultValue="14 inches"
+                      defaultValue={user.arms || ""}
                       disabled={!isEditing}
                       className="bg-gray-900/50 border-gray-700 text-white disabled:opacity-70"
+                      onChange={(e) => isEditing && updateUser({ arms: e.target.value })}
                     />
                   </div>
 
@@ -411,9 +435,10 @@ const Profile = () => {
                     <Input
                       id="thighs"
                       placeholder="Thigh measurement"
-                      defaultValue="24 inches"
+                      defaultValue={user.thighs || ""}
                       disabled={!isEditing}
                       className="bg-gray-900/50 border-gray-700 text-white disabled:opacity-70"
+                      onChange={(e) => isEditing && updateUser({ thighs: e.target.value })}
                     />
                   </div>
 
@@ -424,9 +449,10 @@ const Profile = () => {
                     <Input
                       id="bodyFat"
                       placeholder="e.g., 15%"
-                      defaultValue="15%"
+                      defaultValue={user.bodyFat || ""}
                       disabled={!isEditing}
                       className="bg-gray-900/50 border-gray-700 text-white disabled:opacity-70"
+                      onChange={(e) => isEditing && updateUser({ bodyFat: e.target.value })}
                     />
                   </div>
                 </div>
@@ -451,9 +477,10 @@ const Profile = () => {
                       <Input
                         id="goalWeight"
                         placeholder="e.g., 170 lbs"
-                        defaultValue="170 lbs"
+                        defaultValue={user.goalWeight || ""}
                         disabled={!isEditing}
                         className="pl-10 bg-gray-900/50 border-gray-700 text-white disabled:opacity-70"
+                        onChange={(e) => isEditing && updateUser({ goalWeight: e.target.value })}
                       />
                     </div>
                   </div>
@@ -467,9 +494,10 @@ const Profile = () => {
                       <Input
                         id="targetDate"
                         type="date"
-                        defaultValue="2024-12-31"
+                        defaultValue={user.targetDate || "2024-12-31"}
                         disabled={!isEditing}
                         className="pl-10 bg-gray-900/50 border-gray-700 text-white disabled:opacity-70"
+                        onChange={(e) => isEditing && updateUser({ targetDate: e.target.value })}
                       />
                     </div>
                   </div>
@@ -478,7 +506,11 @@ const Profile = () => {
                     <Label htmlFor="primaryGoal" className="text-gray-300">
                       Primary Fitness Goal
                     </Label>
-                    <Select disabled={!isEditing} defaultValue="weight-loss">
+                    <Select 
+                      disabled={!isEditing} 
+                      defaultValue={user.primaryGoal || "weight-loss"}
+                      onValueChange={(value) => isEditing && updateUser({ primaryGoal: value })}
+                    >
                       <SelectTrigger className="bg-gray-900/50 border-gray-700 text-white">
                         <SelectValue />
                       </SelectTrigger>
@@ -504,6 +536,7 @@ const Profile = () => {
                       disabled={!isEditing}
                       className="bg-gray-900/50 border-gray-700 text-white disabled:opacity-70"
                       rows={4}
+                      defaultValue=""
                     />
                   </div>
                 </div>
@@ -529,6 +562,8 @@ const Profile = () => {
                       disabled={!isEditing}
                       className="bg-gray-900/50 border-gray-700 text-white disabled:opacity-70"
                       rows={3}
+                      defaultValue={user.medicalConditions || ""}
+                      onChange={(e) => isEditing && updateUser({ medicalConditions: e.target.value })}
                     />
                   </div>
 
@@ -542,6 +577,8 @@ const Profile = () => {
                       disabled={!isEditing}
                       className="bg-gray-900/50 border-gray-700 text-white disabled:opacity-70"
                       rows={2}
+                      defaultValue={user.allergies || ""}
+                      onChange={(e) => isEditing && updateUser({ allergies: e.target.value })}
                     />
                   </div>
 
@@ -555,6 +592,8 @@ const Profile = () => {
                       disabled={!isEditing}
                       className="bg-gray-900/50 border-gray-700 text-white disabled:opacity-70"
                       rows={2}
+                      defaultValue={user.medications || ""}
+                      onChange={(e) => isEditing && updateUser({ medications: e.target.value })}
                     />
                   </div>
 
@@ -568,6 +607,8 @@ const Profile = () => {
                       disabled={!isEditing}
                       className="bg-gray-900/50 border-gray-700 text-white disabled:opacity-70"
                       rows={3}
+                      defaultValue={user.injuries || ""}
+                      onChange={(e) => isEditing && updateUser({ injuries: e.target.value })}
                     />
                   </div>
 
@@ -580,9 +621,10 @@ const Profile = () => {
                       <Input
                         id="emergencyName"
                         placeholder="Emergency contact name"
-                        defaultValue="Jane Doe"
+                        defaultValue={user.emergencyName || ""}
                         disabled={!isEditing}
                         className="pl-10 bg-gray-900/50 border-gray-700 text-white disabled:opacity-70"
+                        onChange={(e) => isEditing && updateUser({ emergencyName: e.target.value })}
                       />
                     </div>
                   </div>
@@ -591,7 +633,11 @@ const Profile = () => {
                     <Label htmlFor="emergencyRelation" className="text-gray-300">
                       Relationship
                     </Label>
-                    <Select disabled={!isEditing} defaultValue="spouse">
+                    <Select 
+                      disabled={!isEditing} 
+                      defaultValue={user.emergencyRelation || "spouse"}
+                      onValueChange={(value) => isEditing && updateUser({ emergencyRelation: value })}
+                    >
                       <SelectTrigger className="bg-gray-900/50 border-gray-700 text-white">
                         <SelectValue />
                       </SelectTrigger>
@@ -616,9 +662,10 @@ const Profile = () => {
                         id="emergencyPhone"
                         type="tel"
                         placeholder="Emergency contact phone"
-                        defaultValue="+1 (555) 987-6543"
+                        defaultValue={user.emergencyPhone || ""}
                         disabled={!isEditing}
                         className="pl-10 bg-gray-900/50 border-gray-700 text-white disabled:opacity-70"
+                        onChange={(e) => isEditing && updateUser({ emergencyPhone: e.target.value })}
                       />
                     </div>
                   </div>
@@ -684,13 +731,23 @@ const Profile = () => {
                     <p className="text-gray-400 text-sm mb-3">
                       Your membership has expired. Renew or upgrade your plan to continue enjoying our services.
                     </p>
-                    <Button
-                      onClick={() => navigate("/#membership")}
-                      className="bg-orange-500 hover:bg-orange-600 text-white"
-                    >
-                      <RefreshCw className="h-4 w-4 mr-2" />
-                      Renew or Upgrade Now
-                    </Button>
+                    {user.membershipPlan ? (
+                      <Button
+                        onClick={() => navigate("/renewal")}
+                        className="bg-orange-500 hover:bg-orange-600 text-white"
+                      >
+                        <RefreshCw className="h-4 w-4 mr-2" />
+                        Renew or Upgrade Now
+                      </Button>
+                    ) : (
+                      <Button
+                        onClick={() => navigate("/#membership")}
+                        className="bg-orange-500 hover:bg-orange-600 text-white"
+                      >
+                        <RefreshCw className="h-4 w-4 mr-2" />
+                        Get Membership
+                      </Button>
+                    )}
                   </div>
                 </div>
               </div>
