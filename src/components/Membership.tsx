@@ -1,6 +1,12 @@
-
 import { Button } from "@/components/ui/button";
 import { Check } from "lucide-react";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel";
 
 const Membership = () => {
   const plans = [
@@ -39,6 +45,42 @@ const Membership = () => {
         "Recovery services",
         "VIP locker room access"
       ]
+    },
+    {
+      name: "Starter",
+      price: "$19",
+      period: "/month",
+      features: [
+        "Limited gym access",
+        "Basic equipment only",
+        "No classes included",
+        "Mobile app access"
+      ]
+    },
+    {
+      name: "Pro",
+      price: "$79",
+      period: "/month",
+      features: [
+        "Everything in Premium",
+        "Advanced training programs",
+        "Priority class booking",
+        "Nutrition meal plans",
+        "Monthly body composition analysis"
+      ]
+    },
+    {
+      name: "Ultimate",
+      price: "$149",
+      period: "/month",
+      features: [
+        "Everything in Elite",
+        "24/7 gym access",
+        "Dedicated personal trainer",
+        "Spa & recovery access",
+        "Complimentary supplements",
+        "Exclusive events access"
+      ]
     }
   ];
 
@@ -52,53 +94,67 @@ const Membership = () => {
           </p>
         </div>
         
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-          {plans.map((plan, index) => (
-            <div key={index} className={`relative rounded-lg p-8 ${plan.popular ? 'bg-gradient-to-b from-orange-500 to-orange-600 transform scale-105' : 'bg-gray-800'} hover:scale-105 transition-all duration-300`}>
-              {plan.popular && (
-                <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
-                  <span className="bg-yellow-400 text-black px-4 py-1 rounded-full text-sm font-bold">
-                    MOST POPULAR
-                  </span>
-                </div>
-              )}
-              
-              <div className="text-center mb-8">
-                <h3 className={`text-2xl font-bold ${plan.popular ? 'text-white' : 'text-white'} mb-2`}>
-                  {plan.name}
-                </h3>
-                <div className="flex items-baseline justify-center">
-                  <span className={`text-5xl font-bold ${plan.popular ? 'text-white' : 'text-orange-500'}`}>
-                    {plan.price}
-                  </span>
-                  <span className={`text-xl ${plan.popular ? 'text-white' : 'text-gray-400'} ml-1`}>
-                    {plan.period}
-                  </span>
-                </div>
-              </div>
-              
-              <ul className="space-y-4 mb-8">
-                {plan.features.map((feature, featureIndex) => (
-                  <li key={featureIndex} className="flex items-center">
-                    <Check className={`h-5 w-5 ${plan.popular ? 'text-white' : 'text-orange-500'} mr-3`} />
-                    <span className={`${plan.popular ? 'text-white' : 'text-gray-300'}`}>
-                      {feature}
-                    </span>
-                  </li>
-                ))}
-              </ul>
-              
-              <Button 
-                className={`w-full py-3 text-lg font-semibold transition-all duration-200 ${
-                  plan.popular 
-                    ? 'bg-white text-orange-500 hover:bg-gray-100' 
-                    : 'bg-orange-500 hover:bg-orange-600 text-white'
-                }`}
-              >
-                GET STARTED
-              </Button>
-            </div>
-          ))}
+        <div className="relative px-4 md:px-12">
+          <Carousel
+            opts={{
+              align: "start",
+              loop: true,
+            }}
+            className="w-full"
+          >
+            <CarouselContent className="-ml-2 md:-ml-4">
+              {plans.map((plan, index) => (
+                <CarouselItem key={index} className="pl-2 md:pl-4 basis-full md:basis-1/2 lg:basis-1/3">
+                  <div className={`relative rounded-lg p-6 md:p-8 h-full ${plan.popular ? 'bg-gradient-to-b from-orange-500 to-orange-600 md:transform md:scale-105' : 'bg-gray-800'} hover:scale-105 transition-all duration-300`}>
+                    {plan.popular && (
+                      <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 z-10">
+                        <span className="bg-yellow-400 text-black px-4 py-1 rounded-full text-sm font-bold">
+                          MOST POPULAR
+                        </span>
+                      </div>
+                    )}
+                    
+                    <div className="text-center mb-8">
+                      <h3 className={`text-2xl font-bold ${plan.popular ? 'text-white' : 'text-white'} mb-2`}>
+                        {plan.name}
+                      </h3>
+                      <div className="flex items-baseline justify-center">
+                        <span className={`text-5xl font-bold ${plan.popular ? 'text-white' : 'text-orange-500'}`}>
+                          {plan.price}
+                        </span>
+                        <span className={`text-xl ${plan.popular ? 'text-white' : 'text-gray-400'} ml-1`}>
+                          {plan.period}
+                        </span>
+                      </div>
+                    </div>
+                    
+                    <ul className="space-y-4 mb-8">
+                      {plan.features.map((feature, featureIndex) => (
+                        <li key={featureIndex} className="flex items-center">
+                          <Check className={`h-5 w-5 ${plan.popular ? 'text-white' : 'text-orange-500'} mr-3 flex-shrink-0`} />
+                          <span className={`${plan.popular ? 'text-white' : 'text-gray-300'}`}>
+                            {feature}
+                          </span>
+                        </li>
+                      ))}
+                    </ul>
+                    
+                    <Button 
+                      className={`w-full py-3 text-lg font-semibold transition-all duration-200 ${
+                        plan.popular 
+                          ? 'bg-white text-orange-500 hover:bg-gray-100' 
+                          : 'bg-orange-500 hover:bg-orange-600 text-white'
+                      }`}
+                    >
+                      GET STARTED
+                    </Button>
+                  </div>
+                </CarouselItem>
+              ))}
+            </CarouselContent>
+            <CarouselPrevious className="hidden md:flex -left-12 bg-gray-800 border-gray-700 text-white hover:bg-gray-700 hover:text-orange-500 h-10 w-10" />
+            <CarouselNext className="hidden md:flex -right-12 bg-gray-800 border-gray-700 text-white hover:bg-gray-700 hover:text-orange-500 h-10 w-10" />
+          </Carousel>
         </div>
       </div>
     </section>

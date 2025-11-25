@@ -1,5 +1,5 @@
-
-import { Dumbbell, Menu, X } from "lucide-react";
+import { Link } from "react-router-dom";
+import { Dumbbell, Menu, X, User } from "lucide-react";
 import { useState } from "react";
 
 const Navigation = () => {
@@ -21,6 +21,13 @@ const Navigation = () => {
               <a href="#membership" className="text-gray-300 hover:text-orange-500 transition-colors duration-200">Membership</a>
               <a href="#trainers" className="text-gray-300 hover:text-orange-500 transition-colors duration-200">Trainers</a>
               <a href="#contact" className="text-gray-300 hover:text-orange-500 transition-colors duration-200">Contact</a>
+              <Link to="/profile" className="text-gray-300 hover:text-orange-500 transition-colors duration-200 flex items-center">
+                <User className="h-4 w-4 mr-1" />
+                Profile
+              </Link>
+              <Link to="/auth" className="bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-md font-semibold transition-all duration-200 hover:scale-105">
+                Sign In
+              </Link>
             </div>
           </div>
           
@@ -42,6 +49,13 @@ const Navigation = () => {
               <a href="#membership" className="block px-3 py-2 text-gray-300 hover:text-orange-500">Membership</a>
               <a href="#trainers" className="block px-3 py-2 text-gray-300 hover:text-orange-500">Trainers</a>
               <a href="#contact" className="block px-3 py-2 text-gray-300 hover:text-orange-500">Contact</a>
+              <Link to="/profile" className="block px-3 py-2 text-gray-300 hover:text-orange-500 flex items-center">
+                <User className="h-4 w-4 mr-2" />
+                Profile
+              </Link>
+              <Link to="/auth" className="block px-3 py-2 bg-orange-500 hover:bg-orange-600 text-white rounded-md font-semibold text-center mt-2">
+                Sign In
+              </Link>
             </div>
           </div>
         )}

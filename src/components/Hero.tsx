@@ -18,7 +18,7 @@ const Hero = () => {
           <Button size="lg" className="bg-orange-500 hover:bg-orange-600 text-white px-8 py-3 text-lg font-semibold transition-all duration-200 hover:scale-105">
             START YOUR JOURNEY
           </Button>
-          <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-black px-8 py-3 text-lg font-semibold transition-all duration-200 hover:scale-105">
+          <Button size="lg" variant="outline" className="border-2 border-white text-white bg-transparent hover:bg-white hover:text-black px-8 py-3 text-lg font-semibold transition-all duration-200 hover:scale-105 shadow-lg backdrop-blur-sm">
             LEARN MORE
           </Button>
         </div>

@@ -5,19 +5,25 @@ const Trainers = () => {
       name: "Sarah Johnson",
       specialty: "Strength Training",
       experience: "8 years",
-      image: "https://images.unsplash.com/photo-1594736797933-d0401ba2fe65?ixlib=rb-1.2.1&auto=format&fit=crop&w=300&q=80"
+      image: "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
     },
     {
       name: "Mike Rodriguez",
       specialty: "CrossFit Coach",
       experience: "6 years",
-      image: "https://images.unsplash.com/photo-1567013127542-490d757e51cd?ixlib=rb-1.2.1&auto=format&fit=crop&w=300&q=80"
+      image: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
     },
     {
       name: "Emma Chen",
       specialty: "Yoga & Flexibility",
       experience: "10 years",
-      image: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixlib=rb-1.2.1&auto=format&fit=crop&w=300&q=80"
+      image: "https://images.unsplash.com/photo-1506126613408-eca07ce68773?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+    },
+    {
+      name: "David Thompson",
+      specialty: "Cardio & Endurance",
+      experience: "7 years",
+      image: "https://images.unsplash.com/photo-1576678927484-cc907957088c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
     }
   ];
 
@@ -31,7 +37,7 @@ const Trainers = () => {
           </p>
         </div>
         
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {trainers.map((trainer, index) => (
             <div key={index} className="group text-center">
               <div className="relative mb-6 overflow-hidden rounded-lg">
